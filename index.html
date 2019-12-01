@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建节点</title>
+</head>
+<body>
+    <div class="wrap">这段文字紧跟着 div 的开始标签
+        <p id="para" class="word first">第一段文字</p>
+        <!-- 接下来是第二段文字 -->
+        <p class="word second">第二段文字</p>
+        <p class="word third">第三段文字</p>
+    </div>
+</body>
+<script type="text/javascript">
+    /*
+        创建节点：document.createElement('标签名');
+            * 在内存中添加一个节点对象，但尚未添加到 DOM 树中
+            * 对象已经拥有了 DOM 的所有属性，可以通过语法设置和修改
+     */
+
+    // 1. 创建一个 p 元素
+    var p = document.createElement('p');
+    console.log(p);
+
+    // 2. 设置该 p 元素的属性
+    // 2.1 设置 id 的值为：newPara
+    // p.setAttribute('id', 'newPara');
+    p.id = 'newPara';
+
+    // 2.2 设置 class 的值为：word new
+    p.className = 'word new';
+
+    // 2.3 将元素中的文字内容设置为：这是一个新的段落
+    p.innerHTML = '这是一个新的段落';
+</script>
+</html>
