@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * @description: 比较两个对象或者两个数组之间是否相等
+       * @param {type} Array || Object
+       * @return: true || false
+       */
+      function getType(obj) {
+        let type = typeof obj;
+        if (type != "object") {
+          return type;
+        }
+        return Object.prototype.toString
+          .call(obj)
+          .replace(/^\[object (\S+)\]$/, "$1");
+      }
+      console.log(getType([]));
+
+      function compare(x, y) {
+        if (!x || !y) return false;
+        // 判断类型
+        if (getType(x) != getType(y)) return false;
+
+        if (getType(x) == "Array" && getType(y) == "Array") {
+          if (x.length != y.length) return false;
+          for (var i = 0, l = x.length; i < l; i++) {
+            if (getType(x[i]) != getType(y[i])) return false;
+            // Check if we have nested arrays
+            if (x[i] instanceof Array && y[i] instanceof Array) {
+              // recurse into the nested arrays
+              if (x[i].length != y[i].length) return false;
+              if (!compare(x[i], y[i])) return false;
+            } else if (getType(x[i]) == "Object" && getType(y[i]) == "Object") {
+              if (Object.keys(x[i]).length != Object.keys(y[i]).length)
+                return false;
+              if (!compare(x[i], y[i])) return false;
+            } else if (!Object.is(x[i], y[i])) {
+              return false;
+            }
+          }
+        } else if (getType(x) == "Object" && getType(y) == "Object") {
+          if (Object.keys(x).length != Object.keys(y).length) return false;
+          for (let key in x) {
+            if (y.hasOwnProperty(key)) {
+              if (getType(x[key]) != getType(y[key])) return false;
+              if (getType(x[key]) == "Array" && getType(y[key]) == "Array") {
+                if (x[key].length != y[key].length) return false;
+                if (!compare(x[key], y[key])) return false;
+              } else if (
+                getType(x[key]) == "Object" &&
+                getType(y[key]) == "Object"
+              ) {
+                if (Object.keys(x[key]).length != Object.keys(y[key]).length)
+                  return false;
+                if (!compare(x[key], y[key])) return false;
+              } else if (!Object.is(x[key], y[key])) {
+                return false;
+              }
+            } else {
+              return false;
+            }
+          }
+        } else if (x != y) {
+          return false;
+        }
+        return true;
+      }
+    </script>
+  </body>
+</html>
